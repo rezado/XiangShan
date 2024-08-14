@@ -161,7 +161,9 @@ class TageBTable(implicit p: Parameters) extends XSModule with TBTParams {
   val doing_reset = RegInit(true.B)
   val resetRow    = RegInit(0.U(log2Ceil(BtSize).W))
   resetRow := resetRow + doing_reset
-  when(resetRow === (BtSize - 1).U)(doing_reset := false.B)
+  when(resetRow === (BtSize - 1).U) {
+    doing_reset := false.B
+  }
 
   // Require power-on reset done before handling any request
   io.req.ready := !doing_reset
