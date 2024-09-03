@@ -92,6 +92,7 @@ class LsPipelineBundle(implicit p: Parameters) extends XSBundle
   val tlbMiss = Bool()
   val ptwBack = Bool()
   val af = Bool()
+  val nc = Bool()
   val mmio = Bool()
   val atomic = Bool()
 
@@ -170,6 +171,7 @@ class LdPrefetchTrainBundle(implicit p: Parameters) extends LsPipelineBundle {
     if (latch) tlbMiss := RegEnable(input.tlbMiss, enable) else tlbMiss := input.tlbMiss
     if (latch) ptwBack := RegEnable(input.ptwBack, enable) else ptwBack := input.ptwBack
     if (latch) af := RegEnable(input.af, enable) else af := input.af
+    if (latch) nc := RegEnable(input.nc, enable) else nc := input.nc
     if (latch) mmio := RegEnable(input.mmio, enable) else mmio := input.mmio
     if (latch) forwardMask := RegEnable(input.forwardMask, enable) else forwardMask := input.forwardMask
     if (latch) forwardData := RegEnable(input.forwardData, enable) else forwardData := input.forwardData
@@ -349,6 +351,8 @@ class LoadNukeQueryReq(implicit p: Parameters) extends XSBundle { // provide lqI
   val paddr      = UInt(PAddrBits.W)
   // dataInvalid: load data is invalid.
   val data_valid = Bool()
+  // nc: is NC access
+  val is_nc = Bool()
 }
 
 class LoadNukeQueryResp(implicit p: Parameters) extends XSBundle {
