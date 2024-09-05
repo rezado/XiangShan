@@ -110,6 +110,8 @@ class VecPipelineFeedbackIO(isVStore: Boolean=false) (implicit p: Parameters) ex
   //val atomic               = Bool()
   val exceptionVec         = ExceptionVec()
   val vaddr                = UInt(VAddrBits.W)
+  val vecVaddrOffset       = UInt(VAddrBits.W)
+
   //val vec                  = new OnlyVecExuOutput
    // feedback
   val vecFeedback          = Bool()
@@ -126,6 +128,7 @@ class VecPipelineFeedbackIO(isVStore: Boolean=false) (implicit p: Parameters) ex
 
 class VecPipeBundle(isVStore: Boolean=false)(implicit p: Parameters) extends VLSUBundle {
   val vaddr               = UInt(VAddrBits.W)
+  val basevaddr           = UInt(VAddrBits.W)
   val mask                = UInt(VLENB.W)
   val isvec               = Bool()
   val uop_unit_stride_fof = Bool()

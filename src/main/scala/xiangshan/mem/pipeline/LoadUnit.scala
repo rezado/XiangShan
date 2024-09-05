@@ -983,7 +983,11 @@ class LoadUnit(implicit p: Parameters) extends XSModule
   val s1_trigger_breakpoint = TriggerAction.isExp(s1_trigger_action)
   s1_out.uop.trigger                  := s1_trigger_action
   s1_out.uop.exceptionVec(breakPoint) := s1_trigger_breakpoint
-  s1_out.vaddr := Mux(s1_trigger_debug_mode || s1_trigger_breakpoint, loadTrigger.io.toLoadStore.triggerVaddr, s1_in.vaddr)
+  s1_out.vecVaddrOffset := Mux(
+    s1_trigger_debug_mode || s1_trigger_breakpoint,
+    loadTrigger.io.toLoadStore.triggerVaddr - s1_in.vecBaseVaddr,
+    s1_in.vaddr - s1_in.vecBaseVaddr + genVFirstUnmask(s1_in.mask).asUInt
+  )
 
   XSDebug(s1_valid,
     p"S1: pc ${Hexadecimal(s1_out.uop.pc)}, lId ${Hexadecimal(s1_out.uop.lqIdx.asUInt)}, tlb_miss ${io.tlb.resp.bits.miss}, " +

@@ -123,6 +123,8 @@ class LsPipelineBundle(implicit p: Parameters) extends XSBundle
   // val offset = Vec(2,UInt(4.W))
   val vecActive = Bool() // 1: vector active element or scala mem operation, 0: vector not active element
   val is_first_ele = Bool()
+  val vecBaseVaddr = UInt(VAddrBits.W)
+  val vecVaddrOffset = UInt(VAddrBits.W)
   // val flowPtr = new VlflowPtr() // VLFlowQueue ptr
   // val sflowPtr = new VsFlowPtr() // VSFlowQueue ptr
 
