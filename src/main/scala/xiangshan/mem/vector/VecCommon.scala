@@ -292,6 +292,7 @@ class VecMemExuOutput(isVector: Boolean = false)(implicit p: Parameters) extends
   val mask        = UInt(VLENB.W)
   val vaddr       = UInt(VAddrBits.W)
   val gpaddr      = UInt(GPAddrBits.W)
+  val vecVaddrOffset = UInt(VAddrBits.W)
 }
 
 object MulNum {
