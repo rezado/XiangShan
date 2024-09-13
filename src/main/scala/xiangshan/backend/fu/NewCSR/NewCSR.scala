@@ -1201,6 +1201,19 @@ class NewCSR(implicit val p: Parameters) extends Module
     henvcfg.regOut.CBIE === EnvCBIE.Flush && (isModeVS || isModeVU)
   )
 
+  import scala.reflect.runtime.{universe => ru}
+//
+//  private val mirror: ru.Mirror = ru.runtimeMirror(getClass.getClassLoader)
+//  private val im = mirror.reflect(this)
+//  private val classSymbol: ru.ClassSymbol = im.symbol.asClass
+//  private val csrSymbols = classSymbol.info.members.collect {
+//    case m: ru.TermSymbol =>
+//      if (m.isVal) {
+//
+//      }
+//  }
+//  def getType[T: ru.TypeTag](obj: T) = ru.typeOf[T]
+
   // Always instantiate basic difftest modules.
   if (env.AlwaysBasicDiff || env.EnableDifftest) {
     val hartId = io.fromTop.hartId
