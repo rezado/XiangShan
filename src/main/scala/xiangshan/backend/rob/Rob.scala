@@ -1370,16 +1370,21 @@ class RobImp(override val wrapper: Rob)(implicit p: Parameters, params: BackendP
       val exuOut = dt_exuDebug(ptr)
       val eliminatedMove = dt_eliminatedMove(ptr)
       val isRVC = dt_isRVC(ptr)
+      val isVLoad = FuType.isVLoad(uop.fuType)
+      val dt_hasException = exceptionDataRead.valid && exceptionDataRead.bits.robIdx === deqPtrVec(i)
 
       val difftest = DifftestModule(new DiffInstrCommit(MaxPhyPregs), delay = 3, dontCare = true)
       val dt_skip = Mux(eliminatedMove, false.B, exuOut.isMMIO || exuOut.isPerfCnt)
+      // if vload instruction has exception, skip difftest
+      val dt_skip_vload = isVLoad && dt_hasException
       difftest.coreid := io.hartId
       difftest.index := i.U
       difftest.valid := io.commits.commitValid(i) && io.commits.isCommit
-      difftest.skip := dt_skip
+      difftest.skip := dt_skip || dt_skip_vload
       difftest.isRVC := isRVC
       difftest.rfwen := io.commits.commitValid(i) && commitInfo.rfWen && commitInfo.debug_ldest.get =/= 0.U
       difftest.fpwen := io.commits.commitValid(i) && uop.fpWen
+      difftest.vecwen := io.commits.commitValid(i) && uop.vecWen
       difftest.wpdest := commitInfo.debug_pdest.get
       difftest.wdest := commitInfo.debug_ldest.get
       difftest.nFused := CommitType.isFused(commitInfo.commitType).asUInt + commitInfo.instrSize - 1.U
