@@ -113,6 +113,7 @@ class VecPipelineFeedbackIO(isVStore: Boolean=false) (implicit p: Parameters) ex
   val vaddr                = UInt(VAddrBits.W)
   val gpaddr               = UInt(GPAddrBits.W)
   val vecVaddrOffset       = UInt(VAddrBits.W)
+  val vecTriggerMask       = UInt((VLEN/8).W)
 
   //val vec                  = new OnlyVecExuOutput
    // feedback
