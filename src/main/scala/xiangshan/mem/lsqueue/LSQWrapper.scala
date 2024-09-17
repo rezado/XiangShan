@@ -33,10 +33,10 @@ import coupledL2.{CMOReq, CMOResp}
 
 class ExceptionAddrIO(implicit p: Parameters) extends XSBundle {
   val isStore = Input(Bool())
-  val vaddr = Output(UInt(VAddrBits.W))
+  val vaddr = Output(UInt(XLEN.W))
   val vstart = Output(UInt((log2Up(VLEN) + 1).W))
   val vl = Output(UInt((log2Up(VLEN) + 1).W))
-  val gpaddr = Output(UInt(GPAddrBits.W))
+  val gpaddr = Output(UInt(XLEN.W))
 }
 
 class FwdEntry extends Bundle {
