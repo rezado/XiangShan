@@ -1366,6 +1366,7 @@ class MemBlockImp(outer: MemBlock) extends LazyModuleImp(outer)
   io.mem_to_ooo.sqDeqPtr := lsq.io.sqDeqPtr
   io.mem_to_ooo.lqDeqPtr := lsq.io.lqDeqPtr
   lsq.io.tl_d_channel <> dcache.io.lsu.tl_d_channel
+  lsq.io.seqStoreDetected <> dcache.io.seqStoreDetected
 
   // LSQ to store buffer
   lsq.io.sbuffer        <> sbuffer.io.in
