@@ -322,7 +322,10 @@ class TLB(Width: Int, nRespDups: Int = 1, Block: Seq[Boolean], q: TLBParameters)
     // NOTE: pf need && with !af, page fault has higher priority than access fault
     // but ptw may also have access fault, then af happens, the translation is wrong.
     // In this case, pf has lower priority than af
-
+    
+    // only be used when gpf
+    val isForVS = isNonLeaf || isFakePte
+    resp(idx).bits.isForVS := isForVS
     resp(idx).bits.excp(nDups).gpf.ld := (ldGpf || g_ldUpdate) && s2_valid && !af && !hasPf
     resp(idx).bits.excp(nDups).gpf.st := (stGpf || g_stUpdate) && s2_valid && !af && !hasPf
     resp(idx).bits.excp(nDups).gpf.instr := (instrGpf || g_instrUpdate) && s2_valid && !af && !hasPf

@@ -123,6 +123,7 @@ class NewCSR(implicit val p: Parameters) extends Module
         val isInterrupt = Bool()
         val isHls = Bool()
         val isFetchMalAddr = Bool()
+        val isForVS = Bool()
       })
       val commit = Input(new RobCommitCSR)
       val robDeqPtr = Input(new RobPtr)
@@ -223,6 +224,7 @@ class NewCSR(implicit val p: Parameters) extends Module
   val singleStep = io.fromRob.trap.bits.singleStep
   val trapIsHls = io.fromRob.trap.bits.isHls
   val trapIsFetchMalAddr = io.fromRob.trap.bits.isFetchMalAddr
+  val trapIsForVS = io.fromRob.trap.bits.isForVS
 
   // debug_intrrupt
   val debugIntrEnable = RegInit(true.B) // debug interrupt will be handle only when debugIntrEnable
@@ -651,6 +653,7 @@ class NewCSR(implicit val p: Parameters) extends Module
         in.isCrossPageIPF := trapIsCrossPageIPF
         in.isHls := trapIsHls
         in.isFetchMalAddr := trapIsFetchMalAddr
+        in.isForVS := trapIsForVS
 
         in.iMode.PRVM := PRVM
         in.iMode.V := V

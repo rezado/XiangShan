@@ -887,11 +887,13 @@ class LoadUnit(implicit p: Parameters) extends XSModule
     s1_out.uop.exceptionVec(loadPageFault)   := io.tlb.resp.bits.excp(0).pf.ld && s1_vecActive && !s1_tlb_miss && !s1_in.tlbNoQuery
     s1_out.uop.exceptionVec(loadGuestPageFault)   := io.tlb.resp.bits.excp(0).gpf.ld && !s1_tlb_miss && !s1_in.tlbNoQuery
     s1_out.uop.exceptionVec(loadAccessFault) := io.tlb.resp.bits.excp(0).af.ld && s1_vecActive && !s1_tlb_miss && !s1_in.tlbNoQuery
+    s1_out.uop.isForVS := io.tlb.resp.bits.isForVS
   } .otherwise {
     s1_out.uop.exceptionVec(loadPageFault)      := false.B
     s1_out.uop.exceptionVec(loadGuestPageFault) := false.B
     s1_out.uop.exceptionVec(loadAddrMisaligned) := false.B
     s1_out.uop.exceptionVec(loadAccessFault)    := s1_dly_err && s1_vecActive
+    s1_out.uop.isForVS := false.B
   }
 
   // pointer chasing
